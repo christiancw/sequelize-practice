@@ -83,7 +83,7 @@ describe('User model', function () {
         });
       });
 
-      it('saves the user\'s new age', function () {
+      xit('saves the user\'s new age', function () {
         return user.haveBirthday()
         .then(function () {
           return User.findOne({

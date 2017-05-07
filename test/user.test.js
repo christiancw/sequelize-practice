@@ -71,29 +71,37 @@ describe('User model', function () {
     describe('`haveBirthday` instance method', function () {
 
       it('returns a promise', function () {
-        const birthdayPromise = user.haveBirthday();
-        expect(birthdayPromise).to.be.instanceOf(Sequelize.Promise);
-        return birthdayPromise;
-      });
-
-      it('the returned promise resolves to the user\'s new age', function () {
-        return user.haveBirthday()
-        .then(function (olderUser) {
-          expect(olderUser.age).to.equal(43);
+        return user.save()
+        .then(function () {
+          const birthdayPromise = user.haveBirthday();
+          expect(birthdayPromise).to.be.instanceOf(Sequelize.Promise);
+          return birthdayPromise;
         });
       });
 
-      xit('saves the user\'s new age', function () {
-        return user.haveBirthday()
+      it('the returned promise resolves to the user\'s new age', function () {
+        return user.save()
         .then(function () {
-          return User.findOne({
-            where: {
-              first: 'DB'
-            }
+          return user.haveBirthday()
+          .then(function (olderUser) {
+            expect(olderUser.age).to.equal(43);
           });
-        })
-        .then(function (foundUser) {
-          expect(foundUser.age).to.equal(43);
+        });
+      });
+      it('saves the user\'s new age', function () {
+        return user.save()
+        .then(function () {
+          return user.haveBirthday()
+          .then(function () {
+            return User.findOne({
+              where: {
+                first: 'DB'
+              }
+            });
+          })
+          .then(function (foundUser) {
+            expect(foundUser.age).to.equal(43);
+          });
         });
       });
 

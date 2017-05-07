@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = new Sequelize('postgres://localhost:5432/sequelize_practice');
+const db = new Sequelize('postgres://localhost:5432/sequelize_practice', { logging: false });
 
 const User = db.define('user', {
   first: {
@@ -35,13 +35,16 @@ const User = db.define('user', {
   },
   instanceMethods: {
     haveBirthday: function(){
+      this.age = this.age + 1;
       return User.findOne({
         where: {
           first: 'DB'
         }
       })
     .then(function (foundUser) {
+      console.log(foundUser.age)
       foundUser.age = 43;
+      return foundUser.save()
     });
     }
   }

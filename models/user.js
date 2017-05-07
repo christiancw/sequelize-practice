@@ -38,11 +38,10 @@ const User = db.define('user', {
       this.age = this.age + 1;
       return User.findOne({
         where: {
-          first: 'DB'
+          first: this.first
         }
       })
     .then(function (foundUser) {
-      console.log(foundUser.age)
       foundUser.age = 43;
       return foundUser.save()
     });

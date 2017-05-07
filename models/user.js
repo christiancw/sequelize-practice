@@ -34,21 +34,17 @@ const User = db.define('user', {
     }
   },
   instanceMethods: {
-    haveBirthday: function(user){
-      //return a promise, means this needs to be a ".then"
-      // return this.set('age',this.age + 1)
-      // this.save();
-      this.age = this.age + 1;
-      return User.sync()
-      .then(function(age){
-        console.log("new age: "),
-        console.log("some error")
+    haveBirthday: function(){
+      return User.findOne({
+        where: {
+          first: 'DB'
+        }
       })
-      //the promise resolves to the user's new age
-      //save the user's new age
+    .then(function (foundUser) {
+      foundUser.age = 43;
+    });
     }
   }
-// ...AND HERE
 });
 
 module.exports = User;
